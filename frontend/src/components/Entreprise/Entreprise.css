@@ -1,0 +1,155 @@
+/* Conteneur principal */
+.entreprise-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Barre de recherche et bouton */
+.search-add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.add-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 10px;
+    transition: background 0.3s;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+}
+
+/* Liste des entreprises */
+.entreprise-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Carte entreprise */
+.entreprise-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.entreprise-item:hover {
+    transform: scale(1.02);
+}
+
+/* Informations entreprise */
+.entreprise-info h3 {
+    margin: 0;
+    color: #333;
+}
+
+.entreprise-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Options (3 points + menu) */
+.options {
+    position: relative;
+    cursor: pointer;
+}
+
+.dots {
+    font-size: 20px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: absolute;
+    right: 0;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+}
+
+.options:hover .dropdown {
+    display: flex;
+}
+
+/* Boutons Modifier et Supprimer */
+.edit-btn, .delete-btn {
+    border: none;
+    background: none;
+    padding: 10px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.edit-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.delete-btn {
+    color: red;
+}
+
+.delete-btn:hover {
+    background-color: #ffe6e6;
+}
+
+.edit-button {
+    text-decoration: none;
+    background: white;
+    color: black;
+    padding: 8px 12px;
+    border-radius: 5px;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.edit-button:hover {
+    background: rgb(178, 250, 71);
+}
+
+.delete-button {
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+    background-color: #cc0000;
+}
