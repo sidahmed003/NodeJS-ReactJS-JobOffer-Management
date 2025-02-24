@@ -7,15 +7,31 @@ const AddEntreprise = () => {
     const [nom, setNom] = useState("");
     const [activite, setActivite] = useState("");
     const [siege, setSiege] = useState("");
+    const [apropos, setApropos] = useState("");
+    const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
     const navigate = useNavigate();
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            setImagePreview(URL.createObjectURL(file));
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append("entreprise_nom", nom);
+        formData.append("entreprise_activite", activite);
+        formData.append("entreprise_siege", siege);
+        formData.append("entreprise_apropos", apropos);
+        if (image) formData.append("entreprise_image", image);
+
         try {
-            await axios.post("http://localhost:5000/api/entreprises", {
-                entreprise_nom: nom,
-                entreprise_activite: activite,
-                entreprise_siege: siege
+            await axios.post("http://localhost:5000/api/entreprises", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
             });
             navigate("/entreprise");
         } catch (error) {
@@ -35,6 +51,14 @@ const AddEntreprise = () => {
 
                 <label>Siège :</label>
                 <input type="text" value={siege} onChange={(e) => setSiege(e.target.value)} required />
+
+                <label>À propos :</label>
+                <textarea value={apropos} onChange={(e) => setApropos(e.target.value)} rows="4" required />
+
+                <label>Image de l'entreprise :</label>
+                <input type="file" accept="image/*" onChange={handleImageChange} />
+
+                {imagePreview && <img src={imagePreview} alt="Aperçu" className="image-preview" />}
 
                 <button type="submit" className="submit-button">Ajouter</button>
             </form>
