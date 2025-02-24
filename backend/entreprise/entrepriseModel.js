@@ -16,7 +16,7 @@ const createTable = () => {
 };
 
 // Ajouter une entreprise avec ID auto-généré
-const ajouterEntreprise = (nom, activite, siege, callback) => {
+const ajouterEntreprise = (nom, activite, siege, image, callback) => {
     db.query("SELECT entreprise_id FROM entreprise ORDER BY entreprise_id DESC LIMIT 1", (err, result) => {
         if (err) return callback(err, null);
 
@@ -27,8 +27,8 @@ const ajouterEntreprise = (nom, activite, siege, callback) => {
         }
         const newId = `ent_${nextId}`;
 
-        const sql = "INSERT INTO entreprise (entreprise_id, entreprise_nom, entreprise_activite, entreprise_siege) VALUES (?, ?, ?, ?)";
-        db.query(sql, [newId, nom, activite, siege], callback);
+        const sql = "INSERT INTO entreprise (entreprise_id, entreprise_nom, entreprise_activite, entreprise_siege, entreprise_image) VALUES (?, ?, ?, ?, ?)";
+        db.query(sql, [newId, nom, activite, siege, image], callback);
     });
 };
 
@@ -42,13 +42,19 @@ const getEntrepriseById = (id, callback) => {
     db.query("SELECT * FROM entreprise WHERE entreprise_id = ?", [id], callback);
 };
 
-// Mettre à jour une entreprise
-const updateEntreprise = (id, nom, activite, siege, callback) => {
-    db.query(
-        "UPDATE entreprise SET entreprise_nom = ?, entreprise_activite = ?, entreprise_siege = ? WHERE entreprise_id = ?",
-        [nom, activite, siege, id],
-        callback
-    );
+const updateEntreprise = (id, nom, activite, siege, image, callback) => {
+    let sql = "UPDATE entreprise SET entreprise_nom = ?, entreprise_activite = ?, entreprise_siege = ?";
+    let values = [nom, activite, siege];
+
+    if (image) {
+        sql += ", entreprise_image = ?";
+        values.push(image);
+    }
+
+    sql += " WHERE entreprise_id = ?";
+    values.push(id);
+
+    db.query(sql, values, callback);
 };
 
 // Supprimer une entreprise

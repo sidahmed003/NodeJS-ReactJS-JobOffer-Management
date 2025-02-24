@@ -1,14 +1,28 @@
 const { ajouterEntreprise, getEntreprises, getEntrepriseById, updateEntreprise, deleteEntreprise } = require('./entrepriseModel');
+const multer = require('multer');
+const path = require('path');
 
-// Ajouter une entreprise
+// Configuration du stockage des images avec multer
+const storage = multer.diskStorage({
+    destination: './uploads/', // Stocke les images dans le dossier 'uploads'
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname)); // Génère un nom unique
+    }
+});
+
+// Initialisation de multer
+const upload = multer({ storage });
+
+// Ajouter une entreprise (avec gestion des images)
 const ajouterNouvelleEntreprise = (req, res) => {
     const { entreprise_nom, entreprise_activite, entreprise_siege } = req.body;
+    const entreprise_image = req.file ? req.file.path : null; // Récupère le chemin de l'image si elle existe
 
     if (!entreprise_nom || !entreprise_activite || !entreprise_siege) {
         return res.status(400).json({ error: 'Tous les champs sont obligatoires.' });
     }
 
-    ajouterEntreprise(entreprise_nom, entreprise_activite, entreprise_siege, (err, result) => {
+    ajouterEntreprise(entreprise_nom, entreprise_activite, entreprise_siege, entreprise_image, (err, result) => {
         if (err) {
             return res.status(500).json({ error: 'Erreur lors de l\'ajout de l\'entreprise.' });
         }
@@ -41,12 +55,13 @@ const afficherEntrepriseParId = (req, res) => {
     });
 };
 
-// Mettre à jour une entreprise
+// Mettre à jour une entreprise (ajout de l'image optionnelle)
 const modifierEntreprise = (req, res) => {
     const { id } = req.params;
     const { entreprise_nom, entreprise_activite, entreprise_siege } = req.body;
+    const entreprise_image = req.file ? req.file.path : null; // Vérifie si une nouvelle image est envoyée
 
-    updateEntreprise(id, entreprise_nom, entreprise_activite, entreprise_siege, (err, result) => {
+    updateEntreprise(id, entreprise_nom, entreprise_activite, entreprise_siege, entreprise_image, (err, result) => {
         if (err) {
             return res.status(500).json({ error: 'Erreur lors de la mise à jour de l\'entreprise.' });
         }
@@ -71,5 +86,6 @@ module.exports = {
     afficherEntreprises,
     afficherEntrepriseParId,
     modifierEntreprise,
-    supprimerEntreprise
+    supprimerEntreprise,
+    upload // Export de multer pour l'utiliser dans les routes
 };
