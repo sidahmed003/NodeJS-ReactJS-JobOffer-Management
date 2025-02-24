@@ -42,6 +42,17 @@ const AddEntreprise = () => {
     return (
         <div className="add-entreprise-container">
             <h2>Ajouter une entreprise</h2>
+
+            {/* Zone d'upload stylée */}
+            <label className="image-upload">
+                <input type="file" accept="image/*" onChange={handleImageChange} hidden />
+                {imagePreview ? (
+                    <img src={imagePreview} alt="Aperçu" className="image-preview" />
+                ) : (
+                    <span>Ajouter une image</span>
+                )}
+            </label>
+
             <form onSubmit={handleSubmit} className="add-entreprise-form">
                 <label>Nom de l'entreprise :</label>
                 <input type="text" value={nom} onChange={(e) => setNom(e.target.value)} required />
@@ -54,11 +65,6 @@ const AddEntreprise = () => {
 
                 <label>À propos :</label>
                 <textarea value={apropos} onChange={(e) => setApropos(e.target.value)} rows="4" required />
-
-                <label>Image de l'entreprise :</label>
-                <input type="file" accept="image/*" onChange={handleImageChange} />
-
-                {imagePreview && <img src={imagePreview} alt="Aperçu" className="image-preview" />}
 
                 <button type="submit" className="submit-button">Ajouter</button>
             </form>

@@ -1,20 +1,49 @@
 /* Conteneur principal */
 .modify-entreprise-container {
-    width: 45%;
-    margin: 50px auto;
-    padding: 30px;
-    background: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
 }
 
 /* Titre */
 .modify-entreprise-container h2 {
-    font-size: 22px;
     margin-bottom: 20px;
     color: #333;
-    text-align: center;
+}
+
+/* Zone d'upload de l'image */
+.image-upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f0f0f0;
+    width: 100%;
+    height: 180px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #777;
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+}
+
+.image-upload:hover {
+    background: #e0e0e0;
+}
+
+/* Aperçu de l'image */
+.image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    position: absolute;
 }
 
 /* Formulaire */
@@ -22,47 +51,49 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-top: 20px;
 }
 
-/* Labels */
 .modify-entreprise-form label {
-    font-size: 14px;
-    color: #555;
     font-weight: bold;
-    margin-bottom: 5px;
+    text-align: left;
 }
 
-/* Champs de saisie */
-.modify-entreprise-form input {
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+/* Inputs et Textarea */
+.modify-entreprise-form input, 
+.modify-entreprise-form textarea {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
     font-size: 16px;
-    transition: border 0.2s;
     width: 100%;
 }
 
-.modify-entreprise-form input:focus {
-    border: 1px solid #1a73e8;
-    outline: none;
+.modify-entreprise-form textarea {
+    resize: none;
 }
 
-/* Bouton de soumission */
+/* Bouton */
 .submit-button {
-    background: #1a73e8;
-    color: white;
-    font-size: 16px;
     padding: 12px;
+    background-color: #007bff;
+    color: white;
     border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    border-radius: 8px;
-    transition: background 0.3s, transform 0.1s;
+    transition: background 0.3s ease;
 }
 
 .submit-button:hover {
-    background: #0f5ccd;
+    background-color: #0056b3;
 }
 
-.submit-button:active {
-    transform: scale(0.98);
+/* Style responsive */
+@media (max-width: 600px) {
+    .modify-entreprise-container {
+        width: 90%;
+        padding: 15px;
+    }
 }
