@@ -1,4 +1,4 @@
-const db = require('../db'); // Connexion MySQL
+const db = require('../db'); // Connexion MySQL 
 
 // Créer la table si elle n'existe pas
 const createTable = () => {
@@ -7,7 +7,9 @@ const createTable = () => {
             entreprise_id VARCHAR(10) PRIMARY KEY,
             entreprise_nom VARCHAR(255) NOT NULL,
             entreprise_activite VARCHAR(255) NOT NULL,
-            entreprise_siege VARCHAR(255) NOT NULL
+            entreprise_siege VARCHAR(255) NOT NULL,
+            entreprise_image VARCHAR(255),
+            entreprise_apropos TEXT
         )
     `;
     db.query(sql, (err, result) => {
@@ -16,7 +18,7 @@ const createTable = () => {
 };
 
 // Ajouter une entreprise avec ID auto-généré
-const ajouterEntreprise = (nom, activite, siege, image, callback) => {
+const ajouterEntreprise = (nom, activite, siege, image, apropos, callback) => {
     db.query("SELECT entreprise_id FROM entreprise ORDER BY entreprise_id DESC LIMIT 1", (err, result) => {
         if (err) return callback(err, null);
 
@@ -27,8 +29,8 @@ const ajouterEntreprise = (nom, activite, siege, image, callback) => {
         }
         const newId = `ent_${nextId}`;
 
-        const sql = "INSERT INTO entreprise (entreprise_id, entreprise_nom, entreprise_activite, entreprise_siege, entreprise_image) VALUES (?, ?, ?, ?, ?)";
-        db.query(sql, [newId, nom, activite, siege, image], callback);
+        const sql = "INSERT INTO entreprise (entreprise_id, entreprise_nom, entreprise_activite, entreprise_siege, entreprise_image, entreprise_apropos) VALUES (?, ?, ?, ?, ?, ?)";
+        db.query(sql, [newId, nom, activite, siege, image, apropos], callback);
     });
 };
 
@@ -42,9 +44,10 @@ const getEntrepriseById = (id, callback) => {
     db.query("SELECT * FROM entreprise WHERE entreprise_id = ?", [id], callback);
 };
 
-const updateEntreprise = (id, nom, activite, siege, image, callback) => {
-    let sql = "UPDATE entreprise SET entreprise_nom = ?, entreprise_activite = ?, entreprise_siege = ?";
-    let values = [nom, activite, siege];
+// Modifier une entreprise
+const updateEntreprise = (id, nom, activite, siege, image, apropos, callback) => {
+    let sql = "UPDATE entreprise SET entreprise_nom = ?, entreprise_activite = ?, entreprise_siege = ?, entreprise_apropos = ?";
+    let values = [nom, activite, siege, apropos];
 
     if (image) {
         sql += ", entreprise_image = ?";
