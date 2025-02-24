@@ -13,7 +13,9 @@ function Entreprise() {
 
     const fetchEntreprises = () => {
         axios.get("http://localhost:5000/api/entreprises")
-            .then(response => setEntreprises(response.data))
+            .then(response => { 
+                setEntreprises(response.data);
+            })
             .catch(error => console.error("Erreur:", error));
     };
 
@@ -48,15 +50,10 @@ function Entreprise() {
                 <Link to="/ajouter-entreprise" className="add-button">+ Ajouter une entreprise</Link>
             </div>
 
-            {/* Liste des entreprises */}
-            <div className="entreprise-list">
+            {/* Liste des entreprises affichées en grille */}
+            <div className="entreprise-grid">
                 {filteredEntreprises.map((entreprise) => (
-                    <div key={entreprise.entreprise_id} className="entreprise-item">
-                        <div className="entreprise-info">
-                            <h3>{entreprise.entreprise_nom}</h3>
-                            <p><strong>Activité :</strong> {entreprise.entreprise_activite}</p>
-                            <p><strong>Siège :</strong> {entreprise.entreprise_siege}</p>
-                        </div>
+                    <div key={entreprise.entreprise_id} className="entreprise-card">
                         <div className="options">
                             <span className="dots">⋮</span>
                             <div className="dropdown">
@@ -68,6 +65,25 @@ function Entreprise() {
                                     Supprimer
                                 </button>
                             </div>
+                        </div>
+
+                        <img 
+                            src={`http://localhost:5000/${entreprise.entreprise_image}`} 
+                            alt={entreprise.entreprise_nom} 
+                            className="entreprise-image" 
+                            onError={(e) => e.target.src = "/default-image.jpg"} 
+                        />
+
+
+                        <div className="entreprise-details">
+                            <h3>{entreprise.entreprise_nom}</h3>
+                            <p><strong>Activité :</strong> {entreprise.entreprise_activite}</p>
+                            <p><strong>Siège :</strong> {entreprise.entreprise_siege}</p>
+                        </div>
+
+                        <div className="entreprise-actions">
+                            <Link to={`/entreprise/${entreprise.entreprise_id}`} className="action-button">En savoir plus</Link>
+                            <Link to={`/offres-emplois/${entreprise.entreprise_id}`} className="action-button">Offres d'emplois</Link>
                         </div>
                     </div>
                 ))}

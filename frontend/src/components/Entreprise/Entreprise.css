@@ -1,155 +1,179 @@
 /* Conteneur principal */
 .entreprise-container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 40px auto;
-    background-color: #f9f9f9;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: auto;
 }
 
-/* Barre de recherche et bouton */
+/* Barre de recherche et bouton ajouter */
 .search-add {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 20px;
+    gap: 10px;
 }
 
 .search-bar {
-    flex-grow: 1;
+    flex: 1;
     padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
+    border: 2px solid #ddd;
     border-radius: 5px;
-    outline: none;
+    font-size: 16px;
 }
 
 .add-button {
+    padding: 10px 15px;
     background-color: #007bff;
     color: white;
-    padding: 10px 15px;
+    border: none;
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
-    margin-left: 10px;
-    transition: background 0.3s;
+    transition: background 0.3s ease;
+    white-space: nowrap;
 }
 
 .add-button:hover {
     background-color: #0056b3;
 }
 
-/* Liste des entreprises */
-.entreprise-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+/* Grille des entreprises */
+.entreprise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    padding: 10px;
 }
 
 /* Carte entreprise */
-.entreprise-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.entreprise-card {
+    position: relative;
     background: white;
-    padding: 15px;
     border-radius: 8px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s ease;
+    min-height: 420px;  /* Empêche les sauts de hauteur */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.entreprise-item:hover {
-    transform: scale(1.02);
+.entreprise-card:hover {
+    transform: translateY(-5px);
 }
 
-/* Informations entreprise */
-.entreprise-info h3 {
-    margin: 0;
-    color: #333;
+/* Image */
+.entreprise-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #f0f0f0; /* Couleur de fond si pas d'image */
 }
 
-.entreprise-info p {
-    margin: 5px 0;
+/* Détails de l'entreprise */
+.entreprise-details {
+    flex-grow: 1;
+    padding: 10px 0;
+}
+
+.entreprise-details h3 {
+    margin: 10px 0;
+    font-size: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.entreprise-details p {
     font-size: 14px;
     color: #555;
+    margin: 5px 0;
 }
 
-/* Options (3 points + menu) */
+/* Boutons d'action */
+.entreprise-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    margin-top: auto; /* Pour que les boutons soient toujours en bas */
+}
+
+.action-button {
+    flex: 1;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+}
+
+/* Options (Modifier / Supprimer) */
 .options {
-    position: relative;
+    position: absolute;
+    top: 10px;
+    right: 10px;
     cursor: pointer;
 }
 
 .dots {
     font-size: 20px;
-    padding: 5px;
-    cursor: pointer;
 }
 
+/* Menu déroulant Modifier/Supprimer */
 .dropdown {
+    display: none;
     position: absolute;
     right: 0;
     background: white;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    overflow: hidden;
-    display: none;
-    flex-direction: column;
+    z-index: 10;
+    min-width: 120px;
+    padding: 5px 0;
+    text-align: left;
 }
 
 .options:hover .dropdown {
-    display: flex;
+    display: block;
 }
 
-/* Boutons Modifier et Supprimer */
-.edit-btn, .delete-btn {
-    border: none;
-    background: none;
+.edit-button, .delete-button {
+    display: block;
     padding: 10px;
-    text-align: left;
-    width: 100%;
-    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    color: white;
     font-size: 14px;
-}
-
-.edit-btn:hover {
-    background-color: #f0f0f0;
-}
-
-.delete-btn {
-    color: red;
-}
-
-.delete-btn:hover {
-    background-color: #ffe6e6;
+    cursor: pointer;
 }
 
 .edit-button {
-    text-decoration: none;
-    background: white;
-    color: black;
-    padding: 8px 12px;
-    border-radius: 5px;
-    display: inline-block;
-    font-size: 14px;
-}
-
-.edit-button:hover {
-    background: rgb(178, 250, 71);
+    background: #28a745;
 }
 
 .delete-button {
-    background-color: white;
-    color: black;
+    background: #dc3545;
     border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.edit-button:hover {
+    background: #218838;
 }
 
 .delete-button:hover {
-    background-color: #cc0000;
+    background: #c82333;
 }
