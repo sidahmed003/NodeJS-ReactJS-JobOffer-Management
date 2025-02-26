@@ -9,7 +9,7 @@ const createTable = () => {
             entreprise_activite VARCHAR(255) NOT NULL,
             entreprise_siege VARCHAR(255) NOT NULL,
             entreprise_image VARCHAR(255),
-            entreprise_apropos TEXT
+            apropos TEXT
         )
     `;
     db.query(sql, (err, result) => {
@@ -19,20 +19,53 @@ const createTable = () => {
 
 // Ajouter une entreprise avec ID auto-généré
 const ajouterEntreprise = (nom, activite, siege, image, apropos, callback) => {
-    db.query("SELECT entreprise_id FROM entreprise ORDER BY entreprise_id DESC LIMIT 1", (err, result) => {
-        if (err) return callback(err, null);
+    db.query(
+        "SELECT entreprise_id FROM entreprise ORDER BY CAST(SUBSTRING_INDEX(entreprise_id, '_', -1) AS UNSIGNED) DESC LIMIT 1",
+        (err, result) => {
+            if (err) {
+                console.error("Erreur lors de la récupération du dernier ID :", err);
+                return callback(err, null);
+            }
 
-        let nextId = 1;
-        if (result.length > 0) {
-            const lastId = parseInt(result[0].entreprise_id.split('_')[1]);
-            nextId = lastId + 1;
+            let nextId = 1;
+            if (result.length > 0) {
+                const lastId = parseInt(result[0].entreprise_id.split('_')[1], 10);
+                if (!isNaN(lastId)) {
+                    nextId = lastId + 1;
+                }
+            }
+
+            let newId = `ent_${nextId}`;
+
+            // Vérifier si l'ID existe déjà
+            db.query("SELECT COUNT(*) AS count FROM entreprise WHERE entreprise_id = ?", [newId], (err, result) => {
+                if (err) {
+                    console.error("Erreur lors de la vérification de l'ID :", err);
+                    return callback(err, null);
+                }
+
+                if (result[0].count > 0) {
+                    console.error(`L'ID ${newId} existe déjà. Incrémentation forcée.`);
+                    nextId++;
+                    newId = `ent_${nextId}`;
+                }
+
+                const sql = "INSERT INTO entreprise (entreprise_id, entreprise_nom, entreprise_activite, entreprise_siege, entreprise_image, apropos) VALUES (?, ?, ?, ?, ?, ?)";
+                const valeurs = [newId, nom || "", activite || "", siege || "", image || "", apropos || ""];
+
+                db.query(sql, valeurs, (err, result) => {
+                    if (err) {
+                        console.error("Erreur lors de l'insertion de l'entreprise :", err);
+                        return callback(err, null);
+                    }
+                    return callback(null, result);
+                });
+            });
         }
-        const newId = `ent_${nextId}`;
-
-        const sql = "INSERT INTO entreprise (entreprise_id, entreprise_nom, entreprise_activite, entreprise_siege, entreprise_image, entreprise_apropos) VALUES (?, ?, ?, ?, ?, ?)";
-        db.query(sql, [newId, nom, activite, siege, image, apropos], callback);
-    });
+    );
 };
+
+
 
 // Récupérer toutes les entreprises
 const getEntreprises = (callback) => {
@@ -46,8 +79,8 @@ const getEntrepriseById = (id, callback) => {
 
 // Modifier une entreprise
 const updateEntreprise = (id, nom, activite, siege, image, apropos, callback) => {
-    let sql = "UPDATE entreprise SET entreprise_nom = ?, entreprise_activite = ?, entreprise_siege = ?, entreprise_apropos = ?";
-    let values = [nom, activite, siege, apropos];
+    let sql = "UPDATE entreprise SET entreprise_nom = ?, entreprise_activite = ?, entreprise_siege = ?, apropos = ?";
+    let values = [nom || "", activite || "", siege || "", apropos || ""];
 
     if (image) {
         sql += ", entreprise_image = ?";
@@ -57,8 +90,16 @@ const updateEntreprise = (id, nom, activite, siege, image, apropos, callback) =>
     sql += " WHERE entreprise_id = ?";
     values.push(id);
 
-    db.query(sql, values, callback);
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            console.error("Erreur lors de la mise à jour de l'entreprise :", err);
+            return callback(err, null);
+        }
+        return callback(null, result);
+    });
 };
+
+
 
 // Supprimer une entreprise
 const deleteEntreprise = (id, callback) => {

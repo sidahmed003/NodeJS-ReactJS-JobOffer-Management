@@ -15,14 +15,14 @@ const upload = multer({ storage });
 
 // Ajouter une entreprise (avec gestion des images)
 const ajouterNouvelleEntreprise = (req, res) => {
-    const { entreprise_nom, entreprise_activite, entreprise_siege } = req.body;
+    const { entreprise_nom, entreprise_activite, entreprise_siege, apropos } = req.body; // Ajout de "apropos"
     const entreprise_image = req.file ? req.file.path : null; // Récupère le chemin de l'image si elle existe
 
-    if (!entreprise_nom || !entreprise_activite || !entreprise_siege) {
+    if (!entreprise_nom || !entreprise_activite || !entreprise_siege || !apropos) {
         return res.status(400).json({ error: 'Tous les champs sont obligatoires.' });
     }
 
-    ajouterEntreprise(entreprise_nom, entreprise_activite, entreprise_siege, entreprise_image, (err, result) => {
+    ajouterEntreprise(entreprise_nom, entreprise_activite, entreprise_siege, entreprise_image, apropos, (err, result) => { // Ajout de "apropos"
         if (err) {
             return res.status(500).json({ error: 'Erreur lors de l\'ajout de l\'entreprise.' });
         }
@@ -58,10 +58,10 @@ const afficherEntrepriseParId = (req, res) => {
 // Mettre à jour une entreprise (ajout de l'image optionnelle)
 const modifierEntreprise = (req, res) => {
     const { id } = req.params;
-    const { entreprise_nom, entreprise_activite, entreprise_siege } = req.body;
+    const { entreprise_nom, entreprise_activite, entreprise_siege, apropos } = req.body; // Ajout de "apropos"
     const entreprise_image = req.file ? req.file.path : null; // Vérifie si une nouvelle image est envoyée
 
-    updateEntreprise(id, entreprise_nom, entreprise_activite, entreprise_siege, entreprise_image, (err, result) => {
+    updateEntreprise(id, entreprise_nom, entreprise_activite, entreprise_siege, entreprise_image, apropos, (err, result) => { // Ajout de "apropos"
         if (err) {
             return res.status(500).json({ error: 'Erreur lors de la mise à jour de l\'entreprise.' });
         }
