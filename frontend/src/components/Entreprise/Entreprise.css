@@ -155,17 +155,17 @@
     padding: 10px;
     text-align: center;
     text-decoration: none;
-    color: white;
+    color: black;
     font-size: 14px;
     cursor: pointer;
 }
 
 .edit-button {
-    background: #28a745;
+    background: #ebf0ec;
 }
 
 .delete-button {
-    background: #dc3545;
+    background: #f0eeee;
     border: none;
     width: 100%;
 }
