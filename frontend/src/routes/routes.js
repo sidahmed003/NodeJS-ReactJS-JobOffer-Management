@@ -4,6 +4,7 @@ import Entreprise from "../components/Entreprise/Entreprise";
 import AddEntreprise from "../components/Entreprise/AddEntreprise";
 import Dashboard from "../pages/Dashboard";
 import ModifyEntreprise from "../components/Entreprise/ModifyEntreprise";
+import SpecifiedEntreprise from "../components/Entreprise/SpecifiedEntreprise";
 
 
 const router = createBrowserRouter([
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
             { path: "/entreprise", element: <Entreprise /> },  
             { path: "/ajouter-entreprise", element: <AddEntreprise /> },
             { path: "/modifier-entreprise/:id", element: <ModifyEntreprise /> },
+            { path: "/entreprise/:id", element: <SpecifiedEntreprise /> },
         ]
     }
 ]);

@@ -1,0 +1,33 @@
+.specified-entreprise-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    text-align: center;
+}
+
+.specified-entreprise-container h2 {
+    color: #333;
+}
+
+.entreprise-image {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.specified-entreprise-container p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.loading, .error {
+    text-align: center;
+    font-size: 18px;
+    color: red;
+}

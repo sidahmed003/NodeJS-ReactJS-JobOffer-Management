@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Entreprise.css";  
 
 function Entreprise() {
     const [searchTerm, setSearchTerm] = useState("");
     const [entreprises, setEntreprises] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchEntreprises();
@@ -28,6 +29,10 @@ function Entreprise() {
                 console.error("Erreur lors de la suppression:", error);
             }
         }
+    };
+
+    const handleMoreInfo = (id) => {
+        navigate(`/entreprise/${id}`);
     };
 
     const filteredEntreprises = entreprises.filter(entreprise =>
@@ -74,7 +79,6 @@ function Entreprise() {
                             onError={(e) => e.target.src = "/default-image.jpg"} 
                         />
 
-
                         <div className="entreprise-details">
                             <h3>{entreprise.entreprise_nom}</h3>
                             <p><strong>Activité :</strong> {entreprise.entreprise_activite}</p>
@@ -82,7 +86,12 @@ function Entreprise() {
                         </div>
 
                         <div className="entreprise-actions">
-                            <Link to={`/entreprise/${entreprise.entreprise_id}`} className="action-button">En savoir plus</Link>
+                            <button 
+                                className="action-button" 
+                                onClick={() => handleMoreInfo(entreprise.entreprise_id)}
+                            >
+                                En savoir plus
+                            </button>
                             <Link to={`/offres-emplois/${entreprise.entreprise_id}`} className="action-button">Offres d'emplois</Link>
                         </div>
                     </div>
